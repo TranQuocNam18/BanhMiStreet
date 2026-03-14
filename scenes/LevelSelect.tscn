@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://ke33s1k00q88"]
+
+[ext_resource type="Script" path="res://scripts/LevelSelect.gd" id="1_lsgd"]
+[ext_resource type="Texture2D" uid="uid://di6eqn1vblf43" path="res://assets/bg_street.png" id="2_bgst"]
+
+[node name="LevelSelect" type="Control" unique_id=995159441]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lsgd")
+
+[node name="Background" type="TextureRect" parent="." unique_id=792445573]
+modulate = Color(0.5, 0.4, 0.3, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bgst")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="." unique_id=2006308431]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.2, 0.1, 0, 1)
+theme_override_colors/font_outline_color = Color(0.4, 0.1, 0, 1)
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 56
+text = "CHỌN CẤP ĐỘ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1253287948]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer" unique_id=169142770]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 3
+
+[node name="BackBtn" type="Button" parent="." unique_id=1835526643]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 180.0
+offset_bottom = 85.0
+theme_override_colors/font_color = Color(1, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 28
+text = "⬅ Quay Lại"
