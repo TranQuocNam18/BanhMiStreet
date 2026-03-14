@@ -173,7 +173,7 @@ func _show_round_summary() -> void:
 	if score >= target_score:
 		t += "🎉 Đã hoàn thành cấp độ!\n"
 	else:
-		t += "💀 Thất bại (Chưa đủ %d khách)!\n" % target_score
+		t += "😭 Thất bại (Chưa đủ %d khách)!\n" % target_score
 		
 	summary_lbl.text = (
 		t + "\n"
@@ -243,7 +243,8 @@ func _update_shop_info() -> void:
 
 func _make_shop_card(item: Dictionary) -> Control:
 	var vbox = VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(200, 160)
+	vbox.custom_minimum_size = Vector2(220, 170)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 
 	var emoji_lbl = Label.new()
 	emoji_lbl.text = item["emoji"]
@@ -266,6 +267,8 @@ func _make_shop_card(item: Dictionary) -> Control:
 
 	var btn = Button.new()
 	btn.process_mode = Node.PROCESS_MODE_ALWAYS
+	btn.custom_minimum_size = Vector2(180, 40)
+	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	
 	if Shop.is_owned(item["id"]):
 		btn.text = "✅ Đã mua"
@@ -299,8 +302,17 @@ func _on_buy_item(item_id: String) -> void:
 			status_lbl.add_theme_color_override("font_color", Color.GREEN)
 		
 		ui.flash_feedback("Đã mua! 🛍️", Color(0.4, 0.8, 1.0))
-		# Refresh shop to update buttons and money label
-		_open_shop()
+		
+		# If the item unlocked an ingredient, show the recipe popup
+		var item = Shop.get_item(item_id)
+		if item.has("effect_type") and item["effect_type"] == "unlock_ingredient":
+			var unlocked_recipes = OrderSystem.get_recipes_unlocked_by(item["effect_value"])
+			if unlocked_recipes.size() > 0:
+				ui.show_recipe_unlock(unlocked_recipes)
+				shop_panel.hide() # Hide shop to let them see the popup clearly
+		else:
+			# Refresh shop to update buttons and money label
+			_open_shop()
 	else:
 		var reason = result.get("reason", "Lỗi!")
 		print("Fail to buy: ", item_id, " Reason: ", reason)

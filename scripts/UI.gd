@@ -18,12 +18,17 @@ signal shop_btn_pressed
 @onready var order_items_lbl: Label       = $OrderPanel/OrderItemsLabel
 @onready var assembly_label: Label        = $BottomBar/AssemblyLabel
 @onready var feedback_label: Label        = $FeedbackLabel
+@onready var countdown_label: Label       = $CountdownLabel
 @onready var serve_btn: Button            = $BottomBar/ServeBtn
 @onready var undo_btn: Button             = $BottomBar/UndoBtn
 @onready var pause_btn: Button            = $BottomBar/PauseBtn
 @onready var menu_btn: Button             = $TopBar/HBoxContainer/MenuBtn
 @onready var shop_btn: Button             = $TopBar/HBoxContainer/ShopBtn
 @onready var ingredients_grid: GridContainer = $BottomBar/IngredientsGrid
+
+@onready var recipe_unlock_popup: Control = $RecipeUnlockPopup
+@onready var recipe_unlock_list: VBoxContainer = $RecipeUnlockPopup/Panel/VBoxContainer/ScrollContainer/RecipesList
+@onready var recipe_unlock_close: Button = $RecipeUnlockPopup/Panel/VBoxContainer/CloseBtn
 
 func _ready() -> void:
 	serve_btn.pressed.connect(func(): 
@@ -52,10 +57,39 @@ func _ready() -> void:
 			sound_btn.text = "🔊" if AudioManager.sound_enabled else "🔇"
 		)
 		
+	recipe_unlock_close.pressed.connect(func():
+		AudioManager.play_sfx("click")
+		recipe_unlock_popup.hide()
+	)
+		
 	hide_order()
 	feedback_label.hide()
+	countdown_label.hide()
+	recipe_unlock_popup.hide()
+	recipe_unlock_popup.z_index = 250 # Ensure it shows above RoundSummary (and ShopUI)
 
 # ── Ingredient buttons (rebuilt when unlocks change) ──────────────────────────
+func _make_btn_stylebox(bg_color: Color, border_color: Color) -> StyleBoxFlat:
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = bg_color
+	sb.border_width_left = 2
+	sb.border_width_top = 2
+	sb.border_width_right = 2
+	sb.border_width_bottom = 2
+	sb.border_color = border_color
+	sb.corner_radius_top_left = 12
+	sb.corner_radius_top_right = 12
+	sb.corner_radius_bottom_right = 12
+	sb.corner_radius_bottom_left = 12
+	sb.content_margin_left = 8
+	sb.content_margin_right = 8
+	sb.content_margin_top = 4
+	sb.content_margin_bottom = 4
+	sb.shadow_color = Color(0, 0, 0, 0.3)
+	sb.shadow_size = 3
+	sb.shadow_offset = Vector2(1, 2)
+	return sb
+
 func rebuild_ingredient_buttons() -> void:
 	# Clear existing
 	for child in ingredients_grid.get_children():
@@ -69,8 +103,32 @@ func rebuild_ingredient_buttons() -> void:
 		var label_text = OrderSystem.get_ingredient_label(ing_id)
 		var btn = Button.new()
 		btn.text = label_text
-		btn.custom_minimum_size = Vector2(130, 58)
-		btn.add_theme_font_size_override("font_size", 18)
+		btn.custom_minimum_size = Vector2(130, 52)
+		btn.add_theme_font_size_override("font_size", 17)
+		btn.add_theme_color_override("font_color", Color(1.0, 0.95, 0.7, 1.0))
+		btn.add_theme_color_override("font_hover_color", Color(1.0, 1.0, 0.9, 1.0))
+		
+		# Normal style
+		var normal_sb = _make_btn_stylebox(
+			Color(0.18, 0.1, 0.04, 0.95),
+			Color(0.85, 0.65, 0.2, 0.9)
+		)
+		btn.add_theme_stylebox_override("normal", normal_sb)
+		
+		# Hover style
+		var hover_sb = _make_btn_stylebox(
+			Color(0.28, 0.16, 0.06, 0.98),
+			Color(1.0, 0.85, 0.3, 1.0)
+		)
+		btn.add_theme_stylebox_override("hover", hover_sb)
+		
+		# Pressed style
+		var pressed_sb = _make_btn_stylebox(
+			Color(0.35, 0.2, 0.05, 1.0),
+			Color(1.0, 0.9, 0.4, 1.0)
+		)
+		btn.add_theme_stylebox_override("pressed", pressed_sb)
+		
 		var id_captured = ing_id
 		btn.pressed.connect(func(): 
 			AudioManager.play_sfx("click")
@@ -128,6 +186,8 @@ func update_score(val: int, target: int = 0) -> void:
 func update_round(round_num: int) -> void:
 	round_label.text = "Vòng %d" % round_num
 
+var _countdown_tween: Tween = null
+
 func update_round_timer(seconds_left: float) -> void:
 	var s  = max(0, int(seconds_left))
 	var mm = s / 60
@@ -137,6 +197,29 @@ func update_round_timer(seconds_left: float) -> void:
 		timer_label.add_theme_color_override("font_color", Color(1, 0.3, 0.3))
 	else:
 		timer_label.remove_theme_color_override("font_color")
+	
+	# Countdown overlay for last 5 seconds
+	if seconds_left <= 5.0 and seconds_left > 0.0:
+		var display_num = ceili(seconds_left)
+		countdown_label.text = str(display_num)
+		if not countdown_label.visible:
+			countdown_label.show()
+		# Pulse animation on each new second
+		var new_sec = ceili(seconds_left)
+		var prev_sec = ceili(seconds_left + get_process_delta_time())
+		if new_sec != prev_sec or not countdown_label.visible:
+			if _countdown_tween and _countdown_tween.is_valid():
+				_countdown_tween.kill()
+			countdown_label.scale = Vector2(1.5, 1.5)
+			countdown_label.modulate.a = 1.0
+			_countdown_tween = create_tween()
+			_countdown_tween.tween_property(countdown_label, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			_countdown_tween.parallel().tween_property(countdown_label, "modulate:a", 0.7, 0.8)
+	elif seconds_left <= 0.0:
+		countdown_label.hide()
+	else:
+		if countdown_label.visible:
+			countdown_label.hide()
 
 func show_order(order: Dictionary) -> void:
 	order_name_lbl.text = "📋 " + order["name"]
@@ -156,6 +239,31 @@ func update_assembly(ingredients: Array) -> void:
 		for ing in ingredients:
 			parts.append(OrderSystem.get_ingredient_label(ing))
 		assembly_label.text = " + ".join(parts)
+
+func show_recipe_unlock(recipes: Array) -> void:
+	# Clear old list
+	for child in recipe_unlock_list.get_children():
+		child.queue_free()
+		
+	for recipe in recipes:
+		var lbl = Label.new()
+		var ing_names = []
+		for ing in recipe["ingredients"]:
+			ing_names.append(OrderSystem.get_ingredient_label(ing))
+		lbl.text = "• %s: %s" % [recipe["name"], ", ".join(ing_names)]
+		lbl.add_theme_font_size_override("font_size", 20)
+		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
+		recipe_unlock_list.add_child(lbl)
+		
+	# Move popup to CanvasLayer so it sits correctly on top of ShopUI & RoundSummary
+	var canvas = get_parent()
+	if canvas and recipe_unlock_popup.get_parent() != canvas:
+		recipe_unlock_popup.get_parent().remove_child(recipe_unlock_popup)
+		canvas.add_child(recipe_unlock_popup)
+	else:
+		canvas.move_child(recipe_unlock_popup, -1)
+	
+	recipe_unlock_popup.show()
 
 func flash_feedback(text: String, color: Color) -> void:
 	feedback_label.text = text

@@ -147,3 +147,10 @@ func get_order_price(order: Dictionary) -> int:
 func unlock_ingredient(id: String) -> void:
 	if not unlocked_ingredients.has(id):
 		unlocked_ingredients.append(id)
+
+func get_recipes_unlocked_by(ingredient_id: String) -> Array:
+	var newly_unlocked = []
+	for recipe in ALL_RECIPES:
+		if recipe.has("requires") and recipe["requires"].has(ingredient_id):
+			newly_unlocked.append(recipe)
+	return newly_unlocked

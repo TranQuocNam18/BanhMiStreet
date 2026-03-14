@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://d3uc0f8yq1abo" path="res://scripts/Game.gd" id="1"]
 [ext_resource type="Script" uid="uid://bb0c1ulim84my" path="res://scripts/Spawner.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://btqyvbkgog3md" path="res://assets/Lam_BanhMi.png" id="2_7s5hy"]
 [ext_resource type="Script" uid="uid://dwaxj7b2dbh4e" path="res://scripts/UI.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://di6eqn1vblf43" path="res://assets/bg_street.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://cust" path="res://scenes/Customer.tscn" id="5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_summary"]
@@ -25,12 +25,13 @@ script = ExtResource("1")
 [node name="Background" type="TextureRect" parent="." unique_id=1154077990]
 offset_right = 1152.0
 offset_bottom = 648.0
-texture = ExtResource("4")
+texture = ExtResource("2_7s5hy")
 expand_mode = 1
 stretch_mode = 6
 
 [node name="CustomerAnchor" type="Node2D" parent="." unique_id=2043635962]
-position = Vector2(550, 300)
+position = Vector2(240, 480)
+scale = Vector2(2.4, 2.4)
 
 [node name="Spawner" type="Node" parent="." unique_id=979017980]
 script = ExtResource("2")
@@ -44,6 +45,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -7.0
+offset_right = 2.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3")
@@ -207,10 +212,10 @@ color = Color(0, 0, 0, 0.3)
 
 [node name="CartSign" type="ColorRect" parent="CanvasLayer/UI/BottomBar" unique_id=940939081]
 layout_mode = 0
-offset_left = 400.0
-offset_top = -45.0
-offset_right = 750.0
-offset_bottom = 15.0
+offset_left = 1167.0
+offset_top = -325.0
+offset_right = 1517.0
+offset_bottom = -265.0
 color = Color(0.85, 0.15, 0.05, 1)
 
 [node name="CartSignBorder" type="ReferenceRect" parent="CanvasLayer/UI/BottomBar/CartSign" unique_id=10788723]
@@ -229,6 +234,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -1.0
+offset_right = 8.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.1, 1)
@@ -241,7 +250,7 @@ vertical_alignment = 1
 
 [node name="CartBody" type="ColorRect" parent="CanvasLayer/UI/BottomBar" unique_id=804400618]
 layout_mode = 0
-offset_top = 145.0
+offset_top = 175.0
 offset_right = 1152.0
 offset_bottom = 225.0
 color = Color(0.75, 0.25, 0.15, 1)
@@ -249,7 +258,7 @@ color = Color(0.75, 0.25, 0.15, 1)
 [node name="CartBodyDeco" type="ColorRect" parent="CanvasLayer/UI/BottomBar/CartBody" unique_id=1537717185]
 layout_mode = 0
 offset_right = 1152.0
-offset_bottom = 10.0
+offset_bottom = 5.0
 color = Color(0.9, 0.35, 0.2, 1)
 
 [node name="CartGlass" type="ColorRect" parent="CanvasLayer/UI/BottomBar" unique_id=1021760672]
@@ -355,15 +364,102 @@ text = "🍽 PHỤC VỤ"
 
 [node name="FeedbackLabel" type="Label" parent="CanvasLayer/UI" unique_id=1123759413]
 layout_mode = 0
-offset_left = 390.0
-offset_top = 490.0
-offset_right = 770.0
-offset_bottom = 540.0
+offset_left = 750.0
+offset_top = 350.0
+offset_right = 1140.0
+offset_bottom = 400.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 36
+horizontal_alignment = 2
+
+[node name="CountdownLabel" type="Label" parent="CanvasLayer/UI" unique_id=1768410649]
+visible = false
+layout_mode = 0
+offset_left = 426.0
+offset_top = 240.0
+offset_right = 726.0
+offset_bottom = 360.0
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 96
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RecipeUnlockPopup" type="Control" parent="CanvasLayer/UI" unique_id=388040844]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/RecipeUnlockPopup" unique_id=1150118782]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI/RecipeUnlockPopup" unique_id=1211005448]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/RecipeUnlockPopup/Panel" unique_id=726195632]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/RecipeUnlockPopup/Panel/VBoxContainer" unique_id=662389893]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "🎉 BẠN ĐÃ MỞ KHÓA CÔNG THỨC MỚI 🎉"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/UI/RecipeUnlockPopup/Panel/VBoxContainer" unique_id=30947812]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RecipesList" type="VBoxContainer" parent="CanvasLayer/UI/RecipeUnlockPopup/Panel/VBoxContainer/ScrollContainer" unique_id=1895717636]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CloseBtn" type="Button" parent="CanvasLayer/UI/RecipeUnlockPopup/Panel/VBoxContainer" unique_id=1649086581]
+process_mode = 3
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "Tuyệt vời!"
 
 [node name="ShopUI" type="Control" parent="CanvasLayer" unique_id=1684657879]
 process_mode = 3
@@ -434,10 +530,10 @@ layout_mode = 2
 
 [node name="ItemsContainer" type="GridContainer" parent="CanvasLayer/ShopUI/ShopCenter/ShopVBox/ScrollContainer" unique_id=1029895426]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 24
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
 columns = 3
 
 [node name="RoundSummary" type="Panel" parent="CanvasLayer" unique_id=738235128]

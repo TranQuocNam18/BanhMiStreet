@@ -34,7 +34,7 @@ func play_menu_music() -> void:
 
 func play_gameplay_music() -> void:
 	if not sound_enabled: return
-	bgm_player.volume_db = 0.0
+	bgm_player.volume_db = -10.0
 	if bgm_player.stream != gameplay_music:
 		bgm_player.stream = gameplay_music
 		bgm_player.play()

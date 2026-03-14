@@ -73,6 +73,24 @@ func setup(patience_time: float, type: Type = Type.NORMAL) -> void:
 func _ready() -> void:
 	patience_drop_rate = 1.0 + (OrderSystem.current_level - 1) * 0.1
 	
+	# Tweak UI scales to offset the 2.4x scale from CustomerAnchor
+	type_label.pivot_offset = type_label.size / 2.0
+	type_label.scale = Vector2(0.45, 0.45)
+	type_label.position.y = -85
+	
+	patience_bar.pivot_offset = patience_bar.size / 2.0
+	patience_bar.scale = Vector2(0.45, 0.45)
+	patience_bar.position.y = -95
+	
+	# anchor speech bubble to bottom center so tail stays near character head
+	speech_bubble.pivot_offset = Vector2(speech_bubble.size.x / 2.0, speech_bubble.size.y)
+	speech_bubble.scale = Vector2(0.45, 0.45)
+	speech_bubble.position.y = -150
+	
+	emoji_reaction.pivot_offset = emoji_reaction.size / 2.0
+	emoji_reaction.scale = Vector2(0.5, 0.5)
+	emoji_reaction.position.y = -85
+	
 	# Load character sprite
 	_load_sprite()
 
