@@ -1,0 +1,115 @@
+[gd_scene load_steps=2 format=3 uid="uid://cust"]
+
+[ext_resource type="Script" path="res://scripts/Customer.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w71s8"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.9, 0.9, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1qj2"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Customer" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Body" type="ColorRect" parent="."]
+offset_left = -30.0
+offset_top = -75.0
+offset_right = 30.0
+offset_bottom = 12.0
+color = Color(0.35, 0.55, 0.85, 1)
+
+[node name="Head" type="ColorRect" parent="."]
+offset_left = -22.0
+offset_top = -112.0
+offset_right = 22.0
+offset_bottom = -75.0
+color = Color(1.0, 0.88, 0.73, 1)
+
+[node name="Face" type="Label" parent="Head"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_font_sizes/font_size = 18
+text = "O_O"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hat" type="Label" parent="Head"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -4.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "👒"
+horizontal_alignment = 1
+visible = false
+
+[node name="TypeLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = -60.0
+offset_top = -140.0
+offset_right = 60.0
+offset_bottom = -118.0
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 16
+text = ""
+horizontal_alignment = 1
+visible = false
+
+[node name="PatienceBar" type="ProgressBar" parent="."]
+offset_left = -58.0
+offset_top = -158.0
+offset_right = 58.0
+offset_bottom = -140.0
+theme_override_styles/background = SubResource("StyleBoxFlat_w71s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_m1qj2")
+step = 0.01
+show_percentage = false
+
+[node name="SpeechBubble" type="Panel" parent="."]
+offset_left = -120.0
+offset_top = -245.0
+offset_right = 120.0
+offset_bottom = -160.0
+self_modulate = Color(0.1, 0.05, 0.02, 0.98)
+visible = false
+
+[node name="SpeechLabel" type="Label" parent="SpeechBubble"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_font_sizes/font_size = 16
+text = "..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+

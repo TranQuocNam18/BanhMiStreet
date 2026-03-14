@@ -1,0 +1,448 @@
+[gd_scene load_steps=6 format=3 uid="uid://gamescene"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/UI.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/bg_street.png" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/Customer.tscn" id="5"]
+
+[node name="GameScene" type="Node2D"]
+process_mode = 1
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CartVisual" type="Node2D" parent="."]
+position = Vector2(800, 510)
+
+[node name="CartBody" type="ColorRect" parent="CartVisual"]
+offset_left = -180.0
+offset_top = -125.0
+offset_right = 180.0
+offset_bottom = 68.0
+color = Color(0.62, 0.36, 0.18, 1)
+
+[node name="CartRoof" type="ColorRect" parent="CartVisual"]
+offset_left = -198.0
+offset_top = -145.0
+offset_right = 198.0
+offset_bottom = -122.0
+color = Color(0.85, 0.15, 0.05, 1)
+
+[node name="CartSign" type="ColorRect" parent="CartVisual"]
+offset_left = -130.0
+offset_top = -220.0
+offset_right = 130.0
+offset_bottom = -150.0
+color = Color(1.0, 1.0, 0.85, 1)
+
+[node name="CartSignLabel" type="Label" parent="CartVisual/CartSign"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.8, 0.0, 0.0, 1)
+theme_override_font_sizes/font_size = 28
+text = "BÁNH MÌ 🥖"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shelf" type="ColorRect" parent="CartVisual"]
+offset_left = -175.0
+offset_top = -65.0
+offset_right = 175.0
+offset_bottom = -42.0
+color = Color(0.48, 0.28, 0.1, 1)
+
+[node name="Ingredient1" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -3.0
+offset_right = 48.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🥖"
+
+[node name="Ingredient2" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 58.0
+offset_top = -3.0
+offset_right = 98.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🥩"
+
+[node name="Ingredient3" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = -3.0
+offset_right = 148.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🟤"
+
+[node name="Ingredient4" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 158.0
+offset_top = -3.0
+offset_right = 198.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🥬"
+
+[node name="Ingredient5" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = -3.0
+offset_right = 238.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🥤"
+
+[node name="Ingredient6" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 238.0
+offset_top = -3.0
+offset_right = 278.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🍹"
+
+[node name="Ingredient7" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = -3.0
+offset_right = 318.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🧃"
+
+[node name="Ingredient8" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = 318.0
+offset_top = -3.0
+offset_right = 358.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🧋"
+
+[node name="Ingredient9" type="Label" parent="CartVisual/Shelf"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -3.0
+offset_right = 0.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "🍳"
+
+[node name="WheelL" type="ColorRect" parent="CartVisual"]
+offset_left = -155.0
+offset_top = 62.0
+offset_right = -100.0
+offset_bottom = 85.0
+color = Color(0.15, 0.1, 0.06, 1)
+
+[node name="WheelR" type="ColorRect" parent="CartVisual"]
+offset_left = 100.0
+offset_top = 62.0
+offset_right = 155.0
+offset_bottom = 85.0
+color = Color(0.15, 0.1, 0.06, 1)
+
+[node name="CustomerAnchor" type="Node2D" parent="."]
+position = Vector2(550, 420)
+
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource("2")
+customer_scene = ExtResource("5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3")
+
+[node name="TopBar" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1152.0
+offset_bottom = 60.0
+self_modulate = Color(0.1, 0.05, 0.0, 0.92)
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 6.0
+offset_right = 290.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1.0, 0.9, 0.1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 28
+text = "💰 0 VND"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 6.0
+offset_right = 490.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.4, 1.0, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+text = "✅ 0"
+
+[node name="RoundLabel" type="Label" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 6.0
+offset_right = 660.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+text = "Vòng 1"
+horizontal_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 6.0
+offset_right = 850.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1.0, 1.0, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 28
+text = "⏱ 06:00"
+horizontal_alignment = 1
+
+[node name="ShopBtn" type="Button" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 866.0
+offset_top = 8.0
+offset_right = 1020.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 20
+text = "🛒 Cửa Hàng"
+
+[node name="MenuBtn" type="Button" parent="CanvasLayer/UI/TopBar"]
+layout_mode = 0
+offset_left = 1030.0
+offset_top = 8.0
+offset_right = 1145.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 18
+text = "Menu"
+
+[node name="OrderPanel" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 68.0
+offset_right = 285.0
+offset_bottom = 330.0
+self_modulate = Color(0.1, 0.05, 0.0, 0.95)
+visible = false
+
+[node name="OrderTitle" type="Label" parent="CanvasLayer/UI/OrderPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 265.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(1.0, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "ĐƠN GỌI:"
+
+[node name="OrderNameLabel" type="Label" parent="CanvasLayer/UI/OrderPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 35.0
+offset_right = 265.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(1.0, 1.0, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "📋 Bánh Mì Thịt"
+
+[node name="OrderItemsLabel" type="Label" parent="CanvasLayer/UI/OrderPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 70.0
+offset_right = 265.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_font_sizes/font_size = 18
+text = "..."
+autowrap_mode = 3
+
+[node name="BottomBar" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -125.0
+offset_right = 1152.0
+offset_bottom = 0.0
+grow_vertical = 0
+self_modulate = Color(0.1, 0.05, 0.0, 0.96)
+
+[node name="AssemblyLabel" type="Label" parent="CanvasLayer/UI/BottomBar"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = -34.0
+offset_right = 840.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(1.0, 1.0, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 22
+text = "Chưa có gì..."
+
+[node name="IngredientsGrid" type="GridContainer" parent="CanvasLayer/UI/BottomBar"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 840.0
+offset_bottom = 115.0
+columns = 6
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+
+[node name="UndoBtn" type="Button" parent="CanvasLayer/UI/BottomBar"]
+layout_mode = 0
+offset_left = 850.0
+offset_top = 8.0
+offset_right = 990.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(1.0, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+text = "↩ Xóa"
+
+[node name="PauseBtn" type="Button" parent="CanvasLayer/UI/BottomBar"]
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 8.0
+offset_right = 1142.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.5, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "⏸ Dừng"
+
+[node name="ServeBtn" type="Button" parent="CanvasLayer/UI/BottomBar"]
+layout_mode = 0
+offset_left = 850.0
+offset_top = 64.0
+offset_right = 1142.0
+offset_bottom = 118.0
+theme_override_font_sizes/font_size = 28
+text = "🍽 PHỤC VỤ"
+
+[node name="FeedbackLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 490.0
+offset_right = 770.0
+offset_bottom = 540.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 36
+text = ""
+horizontal_alignment = 1
+
+[node name="ShopPanel" type="Panel" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 0
+offset_left = 120.0
+offset_top = 55.0
+offset_right = 1040.0
+offset_bottom = 600.0
+self_modulate = Color(1, 0.98, 0.9, 1)
+visible = false
+
+[node name="Title" type="Label" parent="CanvasLayer/ShopPanel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 750.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.7, 0.1, 0.0, 1)
+theme_override_font_sizes/font_size = 30
+text = "🛒 Cửa Hàng — Đầu Tư Cho Quán"
+
+[node name="CloseBtn" type="Button" parent="CanvasLayer/ShopPanel"]
+layout_mode = 0
+offset_left = 840.0
+offset_top = 12.0
+offset_right = 905.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.8, 0.0, 0.0, 1)
+theme_override_font_sizes/font_size = 24
+text = "✖"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/ShopPanel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 62.0
+offset_right = 910.0
+offset_bottom = 530.0
+
+[node name="ItemsContainer" type="HBoxContainer" parent="CanvasLayer/ShopPanel/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+size_flags_vertical = 3
+
+[node name="RoundSummary" type="Panel" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 0
+offset_left = 280.0
+offset_top = 90.0
+offset_right = 870.0
+offset_bottom = 560.0
+self_modulate = Color(1, 0.98, 0.9, 1)
+visible = false
+
+[node name="SummaryLabel" type="Label" parent="CanvasLayer/RoundSummary"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 18.0
+offset_right = 560.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(0.15, 0.1, 0.05, 1)
+theme_override_font_sizes/font_size = 24
+text = "🏁 Vòng kết thúc!"
+
+[node name="OpenShopBtn" type="Button" parent="CanvasLayer/RoundSummary"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 280.0
+offset_right = 260.0
+offset_bottom = 342.0
+theme_override_font_sizes/font_size = 22
+text = "🛒 Mở Cửa Hàng"
+
+[node name="NextRoundBtn" type="Button" parent="CanvasLayer/RoundSummary"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 280.0
+offset_right = 560.0
+offset_bottom = 342.0
+theme_override_font_sizes/font_size = 22
+text = "▶ Cấp Kế Tiếp"
