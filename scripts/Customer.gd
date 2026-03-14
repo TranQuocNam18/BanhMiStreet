@@ -6,14 +6,30 @@ extends Node2D
 signal customer_served(success: bool, earned: int)
 
 # ── Customer Types ────────────────────────────────────────────────────────────
+<<<<<<< HEAD
+enum Type { NORMAL, GRAB, OFFICE, STUDENT }
+
+var customer_type: Type = Type.NORMAL
+=======
 enum Type { NORMAL, GRAB, BULK, VIP }
 
 var customer_type: Type = Type.NORMAL
 var bulk_count: int = 1  # how many sandwich copies ordered (for BULK type)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 const TYPE_LABELS = {
 	Type.NORMAL: "",
 	Type.GRAB:   "🛵 GRAB",
+<<<<<<< HEAD
+	Type.OFFICE: "👔 NV Văn Phòng",
+	Type.STUDENT:"🎒 Học Sinh",
+}
+const TYPE_COLORS = {
+	Type.NORMAL: Color(0.35, 0.55, 0.85), # dynamically overridden later
+	Type.GRAB:   Color(0.07, 0.55, 0.15), # Grab green
+	Type.OFFICE: Color(0.85, 0.85, 0.88), # Light shirt
+	Type.STUDENT:Color(1.0, 1.0, 1.0),    # White shirt
+=======
 	Type.BULK:   "🛍 Mua Nhiều",
 	Type.VIP:    "⭐ VIP",
 }
@@ -22,14 +38,21 @@ const TYPE_COLORS = {
 	Type.GRAB:   Color(0.07, 0.55, 0.15),   # Grab green
 	Type.BULK:   Color(0.7, 0.45, 0.1),
 	Type.VIP:    Color(0.55, 0.1, 0.65),
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 }
 
 # ── Phrases ───────────────────────────────────────────────────────────────────
 const ARRIVE_PHRASES = {
 	Type.NORMAL: ["Cho tôi bánh mì!", "Bán cho tôi với!", "Có bánh mì không?"],
+<<<<<<< HEAD
+	Type.GRAB:   ["Order Grab đây!", "Giao hàng nhanh lên!", "Khách đang đợi!"],
+	Type.OFFICE: ["Cho tôi bữa sáng nhanh!", "Sắp trễ giờ làm rồi!", "Làm nhanh cho tôi nhé."],
+	Type.STUDENT:["Cô chú ơi bán cho con!", "Cho con ổ rẻ nhất!", "Nhanh cô ơi tới giờ học rồi!"],
+=======
 	Type.GRAB:   ["Order Grab đây!", "Giao hàng nhanh lên!", "Khách chờ ngoài kia!"],
 	Type.BULK:   ["Cho tôi mua nhiều!", "Làm ơn cho %d ổ nhé!", "Cả nhà đợi đây!"],
 	Type.VIP:    ["Tôi là khách quen đây!", "Làm đặc biệt cho tôi nhé.", "Không cần vội."],
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 }
 const CART_COMMENTS = [
 	"Xe này trông cũ quá!",   "Sao không có ghế?",
@@ -48,6 +71,10 @@ const SKIN_TONES  = [Color(1.0, 0.88, 0.73), Color(0.94, 0.76, 0.57), Color(0.82
 var desired_order: Dictionary = {}
 var max_patience: float = 15.0
 var patience: float = 15.0
+<<<<<<< HEAD
+var patience_drop_rate: float = 1.0
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 var is_active: bool = true
 var _speech_showing: bool = false
 
@@ -58,9 +85,12 @@ var _speech_showing: bool = false
 @onready var type_label: Label      = $TypeLabel
 @onready var speech_bubble: Panel   = $SpeechBubble
 @onready var speech_label: Label    = $SpeechBubble/SpeechLabel
+<<<<<<< HEAD
+=======
 @onready var order_panel: Panel     = $OrderPanel
 @onready var order_name_lbl: Label  = $OrderPanel/OrderNameLabel
 @onready var order_items_lbl: Label = $OrderPanel/OrderItemsLabel
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 @onready var patience_bar: ProgressBar = $PatienceBar
 
 func setup(patience_time: float, type: Type = Type.NORMAL) -> void:
@@ -69,10 +99,29 @@ func setup(patience_time: float, type: Type = Type.NORMAL) -> void:
 	customer_type = type
 
 func _ready() -> void:
+<<<<<<< HEAD
+	patience_drop_rate = 1.0 + (OrderSystem.current_level - 1) * 0.1
+	# Appearance
+	if customer_type == Type.NORMAL:
+		# Random color for normal customers
+		body_rect.color = Color(randf_range(0.2, 0.8), randf_range(0.2, 0.8), randf_range(0.2, 0.8))
+	else:
+		body_rect.color = TYPE_COLORS[customer_type]
+
+	head_rect.color = SKIN_TONES[randi() % SKIN_TONES.size()]
+	
+	if customer_type == Type.GRAB:
+		hat_label.text = "🧢"
+		hat_label.show()
+	else:
+		hat_label.text = "👒"
+		hat_label.visible = (randi() % 4 == 0)
+=======
 	# Appearance
 	body_rect.color = TYPE_COLORS[customer_type]
 	head_rect.color = SKIN_TONES[randi() % SKIN_TONES.size()]
 	hat_label.visible = (randi() % 4 == 0)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 	# Type label
 	var t_lbl = TYPE_LABELS[customer_type]
@@ -90,6 +139,8 @@ func _ready() -> void:
 	desired_order = OrderSystem.generate_order()
 	var order_name = desired_order["name"]
 
+<<<<<<< HEAD
+=======
 	if customer_type == Type.BULK:
 		bulk_count = randi() % 3 + 2  # 2-4
 		order_name = "x%d %s" % [bulk_count, order_name]
@@ -101,6 +152,7 @@ func _ready() -> void:
 	if customer_type == Type.BULK:
 		order_items_lbl.text += "  (%d phần)" % bulk_count
 
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	# Slide in from left
 	var target_x = position.x
 	position.x = target_x - 500
@@ -114,14 +166,21 @@ func _ready() -> void:
 
 	var arrive = ARRIVE_PHRASES[customer_type]
 	var phrase = arrive[randi() % arrive.size()]
+<<<<<<< HEAD
+=======
 	if customer_type == Type.BULK:
 		phrase = phrase % bulk_count if "%" in phrase else phrase
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	_show_speech(phrase)
 
 func _process(delta: float) -> void:
 	if not is_active:
 		return
+<<<<<<< HEAD
+	patience -= delta * patience_drop_rate
+=======
 	patience -= delta
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	patience_bar.value = patience
 
 	var ratio  = clampf(patience / max_patience, 0.0, 1.0)
@@ -147,9 +206,15 @@ func get_earned(base: int) -> int:
 	var bonus = OrderSystem.get_order_bonus_vnd(desired_order)
 
 	match customer_type:
+<<<<<<< HEAD
+		Type.GRAB:  return (base + tip + bonus)
+		Type.OFFICE:return (base + bonus) + tip + 5
+		Type.STUDENT:return (base + bonus) + tip/2 # sinh vien it tien net tip it =))
+=======
 		Type.GRAB:  return (base + tip + bonus)  # normal pay, Grab already urgent
 		Type.BULK:  return (base + bonus) * bulk_count + tip
 		Type.VIP:   return (base + bonus) + tip + 15  # VIP generosity
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 		_:          return base + tip + bonus
 
 func serve_correct() -> void:

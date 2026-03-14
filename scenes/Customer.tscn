@@ -2,6 +2,28 @@
 
 [ext_resource type="Script" path="res://scripts/Customer.gd" id="1"]
 
+<<<<<<< HEAD
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w71s8"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.9, 0.9, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1qj2"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 [node name="Customer" type="Node2D"]
 script = ExtResource("1")
 
@@ -66,6 +88,11 @@ offset_left = -58.0
 offset_top = -158.0
 offset_right = 58.0
 offset_bottom = -140.0
+<<<<<<< HEAD
+theme_override_styles/background = SubResource("StyleBoxFlat_w71s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_m1qj2")
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 step = 0.01
 show_percentage = false
 
@@ -91,6 +118,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+<<<<<<< HEAD
+
+=======
 [node name="OrderPanel" type="Panel" parent="."]
 offset_left = 52.0
 offset_top = -245.0
@@ -118,3 +148,4 @@ theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
 theme_override_font_sizes/font_size = 16
 text = "..."
 autowrap_mode = 3
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
