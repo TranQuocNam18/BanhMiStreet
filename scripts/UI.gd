@@ -19,14 +19,20 @@ signal shop_btn_pressed
 @onready var feedback_label: Label        = $FeedbackLabel
 @onready var serve_btn: Button            = $BottomBar/ServeBtn
 @onready var undo_btn: Button             = $BottomBar/UndoBtn
+<<<<<<< HEAD
 @onready var pause_btn: Button            = $BottomBar/PauseBtn
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 @onready var shop_btn: Button             = $TopBar/ShopBtn
 @onready var ingredients_grid: GridContainer = $BottomBar/IngredientsGrid
 
 func _ready() -> void:
 	serve_btn.pressed.connect(func(): serve_pressed.emit())
 	undo_btn.pressed.connect(func(): undo_pressed.emit())
+<<<<<<< HEAD
 	pause_btn.pressed.connect(toggle_pause)
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	shop_btn.pressed.connect(func(): shop_btn_pressed.emit())
 	hide_order()
 	feedback_label.hide()
@@ -52,6 +58,7 @@ func rebuild_ingredient_buttons() -> void:
 		btn.pressed.connect(func(): ingredient_selected.emit(id_captured))
 		ingredients_grid.add_child(btn)
 
+<<<<<<< HEAD
 func toggle_pause() -> void:
 	var paused = !get_tree().paused
 	get_tree().paused = paused
@@ -60,15 +67,22 @@ func toggle_pause() -> void:
 	else:
 		pause_btn.text = "⏸ Dừng"
 
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 # ── HUD ───────────────────────────────────────────────────────────────────────
 func update_money(val: int) -> void:
 	money_label.text = "💰 %d VND" % val
 
+<<<<<<< HEAD
 func update_score(val: int, target: int = 0) -> void:
 	if target > 0:
 		score_label.text = "✅ %d/%d khách" % [val, target]
 	else:
 		score_label.text = "✅ %d khách" % val
+=======
+func update_score(val: int) -> void:
+	score_label.text = "✅ %d phục vụ" % val
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 func update_round(round_num: int) -> void:
 	round_label.text = "Vòng %d" % round_num
@@ -114,6 +128,7 @@ func flash_feedback(text: String, color: Color) -> void:
 	feedback_label.modulate.a = 1.0
 	feedback_label.position.y += 50
 	feedback_label.hide()
+<<<<<<< HEAD
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.is_echo():
@@ -134,3 +149,5 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					serve_pressed.emit()
 				KEY_W:
 					undo_pressed.emit()
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc

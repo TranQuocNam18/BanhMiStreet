@@ -3,7 +3,11 @@
 
 extends Node2D
 
+<<<<<<< HEAD
 const BASE_ROUND_DURATION: float = 60.0    # 1 minute
+=======
+const BASE_ROUND_DURATION: float = 360.0   # 6 minutes
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 const BASE_SPAWN_INTERVAL: float = 9.0
 
 @onready var spawner: Node        = $Spawner
@@ -16,7 +20,10 @@ const BASE_SPAWN_INTERVAL: float = 9.0
 var money: int         = 0
 var score: int         = 0
 var round_number: int  = 0
+<<<<<<< HEAD
 var target_score: int  = 0
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 var customers_failed: int = 0
 var round_money_earned: int = 0
 
@@ -28,7 +35,10 @@ var round_timer_left: float = BASE_ROUND_DURATION
 var round_running: bool = false
 
 func _ready() -> void:
+<<<<<<< HEAD
 	AudioManager.play_gameplay_music()
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	spawner.customer_spawned.connect(_on_customer_spawned)
 	ui.ingredient_selected.connect(_on_ingredient_selected)
 	ui.undo_pressed.connect(_on_undo_pressed)
@@ -37,8 +47,11 @@ func _ready() -> void:
 
 	shop_panel.hide()
 	round_summary.hide()
+<<<<<<< HEAD
 	shop_panel.z_index = 100
 	round_summary.z_index = 100
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 	# Wire shop close button
 	var close_btn = shop_panel.get_node_or_null("CloseBtn")
@@ -55,7 +68,11 @@ func _ready() -> void:
 		next_round_btn.pressed.connect(func():
 			round_summary.hide()
 			shop_panel.hide()
+<<<<<<< HEAD
 			get_tree().change_scene_to_file("res://scenes/LevelSelect.tscn")
+=======
+			_start_round()
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 		)
 
 	# Wire menu button
@@ -80,6 +97,7 @@ func _start_round() -> void:
 	round_running = true
 
 	# Apply difficulty scaling per round
+<<<<<<< HEAD
 	var lvl = OrderSystem.current_level
 	var patience_scale = max(0.6, 1.0 - (lvl - 1) * 0.08)
 	
@@ -107,6 +125,15 @@ func _start_round() -> void:
 	ui.update_round(lvl)
 	ui.update_money(OrderSystem.money) # Uses persistent money
 	ui.update_score(score, target_score)
+=======
+	var patience_scale = max(0.6, 1.0 - (round_number - 1) * 0.08)
+	spawner.spawn_interval = max(5.0, BASE_SPAWN_INTERVAL * Shop.spawn_interval_multiplier - (round_number - 1) * 0.5)
+	spawner.patience_modifier = Shop.patience_multiplier * patience_scale
+
+	ui.update_round(round_number)
+	ui.update_money(money)
+	ui.update_score(score)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	ui.update_assembly(current_ingredients)
 	ui.hide_order()
 	ui.rebuild_ingredient_buttons()
@@ -118,6 +145,7 @@ func _process(delta: float) -> void:
 		return
 	round_timer_left -= delta
 	ui.update_round_timer(round_timer_left)
+<<<<<<< HEAD
 	
 	# Catch-up logic: if round is nearing end or customers served + failed + 1 < target_score
 	var total_seen = score + customers_failed + (1 if active_customer != null else 0)
@@ -126,6 +154,8 @@ func _process(delta: float) -> void:
 	else:
 		spawner.is_catch_up = false
 		
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	if round_timer_left <= 0.0:
 		round_running = false
 		_end_round()
@@ -138,6 +168,7 @@ func _end_round() -> void:
 		active_customer = null
 	_reset_assembly()
 	ui.hide_order()
+<<<<<<< HEAD
 	
 	# Handle unlocking level
 	if score >= target_score:
@@ -148,10 +179,13 @@ func _end_round() -> void:
 		if OrderSystem.current_level == OrderSystem.progress["cap_da_mo"] and OrderSystem.current_level < 6:
 			OrderSystem.progress["cap_da_mo"] += 1
 			
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	_show_round_summary()
 
 func _show_round_summary() -> void:
 	var summary_lbl: Label = round_summary.get_node("SummaryLabel")
+<<<<<<< HEAD
 	summary_lbl.add_theme_color_override("font_color", Color.WHITE)
 	var t = ""
 	if OrderSystem.current_level == 6:
@@ -183,6 +217,14 @@ func _show_round_summary() -> void:
 			# Allow replay
 			next_round_btn.disabled = false
 			
+=======
+	summary_lbl.text = (
+		"🏁 Vòng %d kết thúc!\n\n" % round_number +
+		"💰 Tiền kiếm được: %d VND\n" % round_money_earned +
+		"✅ Khách phục vụ: %d\n" % score +
+		"❌ Khách bỏ đi: %d\n" % customers_failed
+	)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	round_summary.show()
 
 func _open_shop() -> void:
@@ -298,6 +340,7 @@ func _on_serve_pressed() -> void:
 	ui.hide_order()
 
 func _on_customer_served(success: bool, earned: int) -> void:
+<<<<<<< HEAD
 	AudioManager.play_sfx(success)
 	if success:
 		OrderSystem.money += earned
@@ -305,6 +348,14 @@ func _on_customer_served(success: bool, earned: int) -> void:
 		score += 1
 		ui.update_money(OrderSystem.money)
 		ui.update_score(score, target_score)
+=======
+	if success:
+		money += earned
+		round_money_earned += earned
+		score += 1
+		ui.update_money(money)
+		ui.update_score(score)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 		ui.flash_feedback("+%d VND ✓" % earned, Color(0.3, 1.0, 0.4))
 	else:
 		customers_failed += 1

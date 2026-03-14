@@ -4,7 +4,11 @@
 extends Node
 
 # ── Base ingredients (always available) ──────────────────────────────────────
+<<<<<<< HEAD
 const BASE_INGREDIENTS = ["Bread", "Meat", "Pate", "Vegetables", "TrungOpLa"]
+=======
+const BASE_INGREDIENTS = ["Bread", "Meat", "Pate", "Vegetables"]
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 # ── Unlockable ingredients (bought from shop) ─────────────────────────────────
 # key: ingredient id, value: { display, emoji, bonus_vnd }
@@ -14,6 +18,7 @@ const UNLOCKABLE_INGREDIENTS = {
 	"GioNhan":    {"display": "Giò Nhân","emoji": "🌭", "bonus_vnd": 15},
 }
 
+<<<<<<< HEAD
 # ── Drinks (Unlocked by level) ────────────────────────────────────────────────
 const DRINKS = {
 	"NuocNgot": {"display": "Nước Ngọt", "emoji": "🥤", "bonus_vnd": 5},
@@ -29,6 +34,8 @@ const NGUYEN_LIEU_THEO_VONG = {
 	4: ["NuocNgot", "NuocCam", "NuocNho", "TraSua"]
 }
 
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 # ── All recipes (filtered at runtime by unlocked ingredients) ─────────────────
 const ALL_RECIPES = [
 	{"name": "Bánh Mì Thịt",       "ingredients": ["Bread", "Meat"]},
@@ -44,12 +51,16 @@ const ALL_RECIPES = [
 	{"name": "Bánh Mì Trứng Thịt",  "ingredients": ["Bread", "Egg",    "Meat"],          "requires": ["Egg"]},
 	{"name": "Bánh Mì Cá Đặc Biệt","ingredients": ["Bread", "CannedFish", "Vegetables"],"requires": ["CannedFish"]},
 	{"name": "Bánh Mì Giò Chả",    "ingredients": ["Bread", "GioNhan", "Pate"],          "requires": ["GioNhan"]},
+<<<<<<< HEAD
 	{"name": "Bánh Mì Trứng Ốp La", "ingredients": ["Bread", "TrungOpLa"]},
 	{"name": "Bánh Mì Thịt Trứng", "ingredients": ["Bread", "Meat", "TrungOpLa"]},
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 ]
 
 # Icons/display for base ingredients
 const BASE_INGREDIENT_ICONS = {
+<<<<<<< HEAD
 	"Bread":      {"display": "Bánh Mì",  "emoji": "🥖"},
 	"Meat":       {"display": "Thịt",     "emoji": "🥩"},
 	"Pate":       {"display": "Pate",     "emoji": "🟤"},
@@ -76,6 +87,19 @@ func get_all_available() -> Array:
 	elif current_level > 4:
 		base += NGUYEN_LIEU_THEO_VONG[4]
 	return base
+=======
+	"Bread":      {"display": "Bánh Mì",  "emoji": "🍞"},
+	"Meat":       {"display": "Thịt",     "emoji": "🥩"},
+	"Pate":       {"display": "Pate",     "emoji": "🟤"},
+	"Vegetables": {"display": "Rau",      "emoji": "🥬"},
+}
+
+# ── Runtime state ─────────────────────────────────────────────────────────────
+var unlocked_ingredients: Array = []  # List of unlocked ingredient IDs
+
+func get_all_available() -> Array:
+	return BASE_INGREDIENTS + unlocked_ingredients
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 func get_ingredient_label(id: String) -> String:
 	if BASE_INGREDIENT_ICONS.has(id):
@@ -84,9 +108,12 @@ func get_ingredient_label(id: String) -> String:
 	if UNLOCKABLE_INGREDIENTS.has(id):
 		var d = UNLOCKABLE_INGREDIENTS[id]
 		return d["emoji"] + " " + d["display"]
+<<<<<<< HEAD
 	if DRINKS.has(id):
 		var d = DRINKS[id]
 		return d["emoji"] + " " + d["display"]
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	return id
 
 func generate_order() -> Dictionary:
@@ -101,6 +128,7 @@ func generate_order() -> Dictionary:
 					break
 		if ok:
 			valid.append(recipe)
+<<<<<<< HEAD
 	var chosen = valid[randi() % valid.size()].duplicate(true)
 	
 	# Randomly add ONE drink from the allowed drinks for this level (~70% chance)
@@ -113,6 +141,10 @@ func generate_order() -> Dictionary:
 		chosen["name"] += " + " + DRINKS[drink]["display"]
 		
 	return chosen
+=======
+	var chosen = valid[randi() % valid.size()]
+	return chosen.duplicate(true)
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 
 func validate_order(desired: Array, assembled: Array) -> bool:
 	if desired.size() != assembled.size():
@@ -126,8 +158,11 @@ func get_order_bonus_vnd(order: Dictionary) -> int:
 	for ing in order.get("ingredients", []):
 		if UNLOCKABLE_INGREDIENTS.has(ing):
 			bonus += UNLOCKABLE_INGREDIENTS[ing]["bonus_vnd"]
+<<<<<<< HEAD
 		if DRINKS.has(ing):
 			bonus += DRINKS[ing]["bonus_vnd"]
+=======
+>>>>>>> 5d32fd774886f6d79ea26af069bfffadaa9e6bcc
 	return bonus
 
 func unlock_ingredient(id: String) -> void:
