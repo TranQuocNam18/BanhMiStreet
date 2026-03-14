@@ -1,0 +1,213 @@
+[gd_scene load_steps=5 format=3 uid="uid://game"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_game"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="2_spawn"]
+[ext_resource type="Script" path="res://scripts/UI.gd" id="3_ui"]
+[ext_resource type="Texture2D" uid="uid://bgv2" path="res://assets/background_v2.png" id="4_bg"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Cart" type="Node2D" parent="."]
+position = Vector2(576, 500)
+
+[node name="Body" type="ColorRect" parent="Cart"]
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 50.0
+color = Color(0.72549, 0.443137, 0.239216, 1)
+
+[node name="Top" type="ColorRect" parent="Cart"]
+offset_left = -160.0
+offset_top = -110.0
+offset_right = 160.0
+offset_bottom = -90.0
+color = Color(0.819608, 0.545098, 0.301961, 1)
+
+[node name="Sign" type="ColorRect" parent="Cart"]
+offset_left = -100.0
+offset_top = -180.0
+offset_right = 100.0
+offset_bottom = -120.0
+color = Color(1, 1, 0.8, 1)
+
+[node name="Label" type="Label" parent="Cart/Sign"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.8, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "BÁNH MÌ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WheelL" type="ColorRect" parent="Cart"]
+offset_left = -120.0
+offset_top = 50.0
+offset_right = -80.0
+offset_bottom = 70.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="WheelR" type="ColorRect" parent="Cart"]
+offset_left = 80.0
+offset_top = 50.0
+offset_right = 120.0
+offset_bottom = 70.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource("2_spawn")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ui")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 280.0
+offset_bottom = 150.0
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 260.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(1, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "Cash: $0"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 85.0
+offset_right = 260.0
+offset_bottom = 125.0
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+
+[node name="OrderPanel" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -338.0
+offset_top = 31.0
+offset_right = -58.0
+offset_bottom = 311.0
+grow_horizontal = 0
+
+[node name="OrderLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -318.0
+offset_top = 51.0
+offset_right = -78.0
+offset_bottom = 291.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 0.8, 1)
+theme_override_font_sizes/font_size = 22
+text = "Order:"
+
+[node name="AssemblyPanel" type="Panel" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -280.0
+offset_right = 150.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="AssemblyLabel" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -260.0
+offset_right = 130.0
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8, 1, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "Assembly:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -100.0
+offset_right = 180.0
+offset_bottom = 140.0
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="BtnBread" type="Button" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Bread"
+
+[node name="BtnMeat" type="Button" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Meat"
+
+[node name="BtnPate" type="Button" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Pate"
+
+[node name="BtnVeggies" type="Button" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Veggie"
+
+[node name="BtnServe" type="Button" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -100.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "SERVE"
