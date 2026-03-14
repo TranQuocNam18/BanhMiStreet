@@ -9,7 +9,7 @@ signal serve_pressed
 signal shop_btn_pressed
 
 @onready var money_label: Label           = $TopBar/HBoxContainer/MoneyVBox/MoneyLabel
-@onready var earned_money_label: Label    = $TopBar/HBoxContainer/MoneyVBox/EarnedMoneyLabel
+@onready var earned_money_label: Label    = $TopBar/EarnedMoneyLabel
 @onready var score_label: Label           = $TopBar/HBoxContainer/ScoreLabel
 @onready var round_label: Label           = $TopBar/HBoxContainer/RoundLabel
 @onready var timer_label: Label           = $TopBar/HBoxContainer/TimerLabel
@@ -25,6 +25,11 @@ signal shop_btn_pressed
 @onready var menu_btn: Button             = $TopBar/HBoxContainer/MenuBtn
 @onready var shop_btn: Button             = $TopBar/HBoxContainer/ShopBtn
 @onready var ingredients_grid: GridContainer = $BottomBar/IngredientsGrid
+@onready var bottom_bar: Panel              = $BottomBar
+@onready var cart_glass: ColorRect           = $BottomBar/CartGlass
+@onready var cart_glass_frame: ReferenceRect = $BottomBar/CartGlassFrame
+@onready var cart_light: ColorRect           = $BottomBar/CartLight
+@onready var cart_shadow: ColorRect          = $BottomBar/CartShadow
 
 @onready var recipe_unlock_popup: Control = $RecipeUnlockPopup
 @onready var recipe_unlock_list: VBoxContainer = $RecipeUnlockPopup/Panel/VBoxContainer/ScrollContainer/RecipesList
@@ -135,6 +140,47 @@ func rebuild_ingredient_buttons() -> void:
 			ingredient_selected.emit(id_captured)
 		)
 		ingredients_grid.add_child(btn)
+	# Wait a frame for layout, then resize containers to fit
+	await get_tree().process_frame
+	_resize_ingredient_area()
+
+func _resize_ingredient_area() -> void:
+	# Use actual rendered grid height instead of estimate
+	var grid_height = ingredients_grid.get_combined_minimum_size().y
+	if grid_height < 52:
+		grid_height = 52
+	
+	# Layout from bottom up within BottomBar
+	var content_bottom = 210   # near BottomBar bottom edge
+	var grid_bottom = content_bottom
+	var grid_top = grid_bottom - grid_height
+	var assembly_bottom = grid_top - 6
+	var assembly_top = assembly_bottom - 26
+	var glass_top = assembly_top - 4
+	var glass_bottom = content_bottom + 2
+	
+	# Update positions
+	ingredients_grid.offset_top = grid_top
+	ingredients_grid.offset_bottom = grid_bottom
+	assembly_label.offset_top = assembly_top
+	assembly_label.offset_bottom = assembly_bottom
+	cart_glass.offset_top = glass_top
+	cart_glass.offset_bottom = glass_bottom
+	cart_glass_frame.offset_top = glass_top
+	cart_glass_frame.offset_bottom = glass_bottom
+	cart_light.offset_top = glass_top
+	cart_light.offset_bottom = glass_top + 20
+	
+	# Expand BottomBar upward if content doesn't fit
+	var needed_height = glass_bottom + 10
+	if needed_height > 225:
+		bottom_bar.offset_top = -needed_height
+	else:
+		bottom_bar.offset_top = -225
+	
+	# Keep shadow at the bottom edge
+	cart_shadow.offset_top = needed_height - 15
+	cart_shadow.offset_bottom = needed_height + 5
 
 func toggle_pause() -> void:
 	var paused = !get_tree().paused

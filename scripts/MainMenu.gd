@@ -65,7 +65,6 @@ func _ready() -> void:
 	tween.tween_property($CartDecor, "position:y", $CartDecor.position.y, 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _on_start() -> void:
-	OrderSystem.money = 0
 	get_tree().change_scene_to_file("res://scenes/LevelSelect.tscn")
 
 func _on_tutorial_pressed() -> void:

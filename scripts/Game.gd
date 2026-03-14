@@ -74,7 +74,6 @@ func _ready() -> void:
 func _on_menu_pressed() -> void:
 	if not is_inside_tree(): return
 	spawner.stop()
-	Shop.reset_for_new_game()
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
 
@@ -158,6 +157,8 @@ func _end_round() -> void:
 		# Unlock next level if the played level is the highest opened
 		if OrderSystem.current_level == OrderSystem.progress["cap_da_mo"] and OrderSystem.current_level < 6:
 			OrderSystem.progress["cap_da_mo"] += 1
+			
+		SaveSystem.save_game()
 			
 	_show_round_summary()
 
@@ -294,6 +295,7 @@ func _on_buy_item(item_id: String) -> void:
 	var result = Shop.buy_item(item_id, OrderSystem.money)
 	if result["success"]:
 		OrderSystem.money -= result["cost"]
+		SaveSystem.save_game()
 		ui.update_money(OrderSystem.money)
 		ui.rebuild_ingredient_buttons()
 		
@@ -383,6 +385,7 @@ func _on_customer_served(success: bool, earned: int) -> void:
 		OrderSystem.money += earned
 		round_money_earned += earned
 		score += 1
+		SaveSystem.save_game()
 		ui.update_money(OrderSystem.money)
 		ui.update_score(score, target_score)
 		ui.show_earned_money(earned)

@@ -32,21 +32,21 @@ const TYPE_SPRITES = {
 
 # ── Phrases ───────────────────────────────────────────────────────────────────
 const ARRIVE_PHRASES = {
-	Type.NORMAL: ["Cho tôi bánh mì!", "Bán cho tôi với!", "Có bánh mì không?"],
-	Type.GRAB:   ["Order Grab đây!", "Giao hàng nhanh lên!", "Khách đang đợi!"],
-	Type.OFFICE: ["Cho tôi bữa sáng nhanh!", "Sắp trễ giờ làm rồi!", "Làm nhanh cho tôi nhé."],
-	Type.STUDENT:["Cô chú ơi bán cho con!", "Cho con ổ rẻ nhất!", "Nhanh cô ơi tới giờ học rồi!"],
+	Type.NORMAL: ["Cho 1 ổ bánh mì nhé!", "Làm cho tôi 1 ổ đi!", "Có bánh mì không ạ?"],
+	Type.GRAB:   ["Đơn Grab đến lấy nè!", "Chào sếp, cho lấy đơn!", "Bánh em xong chưa ạ?"],
+	Type.OFFICE: ["Chào bạn, làm giúp 1 phần!", "Anh/chị đang hơi vội, làm nhanh giúp nhé!", "Cho một ổ mang đi với."],
+	Type.STUDENT:["Cô chú ơi bán cho con 1 ổ ạ!", "Dạ cho con ổ rẻ thôi ạ!", "Nhanh xíu nha cô chú ơi, sắp vào học rồi ạ!"],
 }
 const CART_COMMENTS = [
-	"Xe này trông cũ quá!",   "Sao không có ghế?",
-	"Trời nắng thế này...",   "Xe cũ nhưng bánh ngon!",
-	"Biển hiệu đẹp đó!",      "Sao không có đá?",
-	"Ồ, có nhạc hay đấy!",    "Sạch sẽ quá!",
+	"Xe này nhìn cổ kính phết!",   "Hơi tiếc vì không có chỗ ngồi.",
+	"Trời hôm nay nóng quá...",    "Xe nhỏ nhưng bánh ngon là được!",
+	"Biển hiệu xinh ghê!",         "Sao không có ly trà đá nhỉ?",
+	"Ồ, có nhạc nghe vui tai ghê!","Xe sạch sẽ gọn gàng quá ta!",
 ]
-const HURRY_PHRASES = ["Nhanh lên!", "Chờ lâu quá!", "Vội lắm!", "Nhanh không?!"]
-const HAPPY_PHRASES  = ["Cảm ơn nhé! 😊", "Ngon lắm!", "Tuyệt vời!", "Lần sau ghé nữa!"]
-const LEAVE_PHRASES  = ["Thôi bỏ qua...", "Chậm quá!", "Đi chỗ khác!", "Lần sau nhanh hơn!"]
-const WRONG_PHRASES  = ["Sai rồi!", "Tôi không gọi cái này!", "Nhầm đơn rồi!"]
+const HURRY_PHRASES = ["Bạn làm nhanh giúp mình với!", "Sắp trễ rồi bạn ơi!", "Mình hơi vội!", "Chưa có sao ạ?"]
+const HAPPY_PHRASES  = ["Cảm ơn nhiều nhé! 😊", "Ngon quá!", "Tuyệt vời, lần sau ủng hộ tiếp!", "Cảm ơn, chúc buôn may bán đắt!"]
+const LEAVE_PHRASES  = ["Thôi để khi khác nha...", "Lâu quá, mình đi đây!", "Xa quá, đi ăn quán khác vậy!", "Thông cảm nha, mình đang bận..."]
+const WRONG_PHRASES  = ["Trời, nhầm món rồi bạn ơi!", "Hình như không phải món mình gọi!", "Sửa lại giúp mình nha!"]
 
 const HURRY_THRESHOLD: float = 5.0
 
@@ -76,16 +76,16 @@ func _ready() -> void:
 	# Tweak UI scales to offset the 2.4x scale from CustomerAnchor
 	type_label.pivot_offset = type_label.size / 2.0
 	type_label.scale = Vector2(0.45, 0.45)
-	type_label.position.y = -85
+	type_label.position.y = -68
 	
 	patience_bar.pivot_offset = patience_bar.size / 2.0
 	patience_bar.scale = Vector2(0.45, 0.45)
-	patience_bar.position.y = -95
+	patience_bar.position.y = -80
 	
 	# anchor speech bubble to bottom center so tail stays near character head
 	speech_bubble.pivot_offset = Vector2(speech_bubble.size.x / 2.0, speech_bubble.size.y)
 	speech_bubble.scale = Vector2(0.45, 0.45)
-	speech_bubble.position.y = -150
+	speech_bubble.position.y = -175
 	
 	emoji_reaction.pivot_offset = emoji_reaction.size / 2.0
 	emoji_reaction.scale = Vector2(0.5, 0.5)
@@ -109,11 +109,17 @@ func _ready() -> void:
 	# Generate order
 	desired_order = OrderSystem.generate_order()
 
-	# Slide in from left
+	# Slide in from left with squash and stretch
 	var target_x = position.x
 	position.x = target_x - 500
+	
+	character_sprite.pivot_offset = character_sprite.size / 2.0
+	character_sprite.scale = Vector2(0.5, 1.5)
+	
 	var tween = create_tween()
 	tween.tween_property(self, "position:x", target_x, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(character_sprite, "scale", Vector2(1.0, 1.0), 0.5).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	
 	AudioManager.play_sfx("customer_arrive")
 	await tween.finished
 
@@ -141,9 +147,16 @@ func _load_sprite() -> void:
 func _start_idle_anim() -> void:
 	if _idle_tween and _idle_tween.is_valid():
 		_idle_tween.kill()
+	
+	character_sprite.pivot_offset = character_sprite.size / 2.0
+	character_sprite.rotation_degrees = 0.0
+	
 	_idle_tween = create_tween().set_loops()
-	_idle_tween.tween_property(self, "position:y", position.y - 4, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	_idle_tween.tween_property(self, "position:y", position.y + 4, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_idle_tween.tween_property(character_sprite, "scale", Vector2(1.03, 0.97), 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_idle_tween.parallel().tween_property(character_sprite, "rotation_degrees", 2.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	_idle_tween.tween_property(character_sprite, "scale", Vector2(0.97, 1.03), 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_idle_tween.parallel().tween_property(character_sprite, "rotation_degrees", -2.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _show_emoji(emoji: String) -> void:
 	if not is_instance_valid(emoji_reaction):
@@ -205,11 +218,15 @@ func serve_correct() -> void:
 	AudioManager.play_sfx("money")
 	_show_emoji("😍")
 	
-	# Happy bounce
+	# Happy bounce & spin
+	character_sprite.pivot_offset = character_sprite.size / 2.0
 	var t = create_tween()
-	t.tween_property(character_sprite, "scale", Vector2(1.1, 0.9), 0.1)
-	t.tween_property(character_sprite, "scale", Vector2(0.95, 1.05), 0.1)
-	t.tween_property(character_sprite, "scale", Vector2(1.0, 1.0), 0.1)
+	t.tween_property(character_sprite, "scale", Vector2(1.2, 0.8), 0.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	t.tween_property(character_sprite, "scale", Vector2(0.9, 1.1), 0.15).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	t.tween_property(character_sprite, "scale", Vector2(1.0, 1.0), 0.15).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	
+	# Add a spin
+	t.parallel().tween_property(character_sprite, "rotation_degrees", 360.0, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 	if is_inside_tree():
 		await get_tree().create_timer(0.4).timeout
@@ -229,12 +246,14 @@ func serve_wrong() -> void:
 	AudioManager.play_sfx("xin_loi")
 	_show_emoji("😠")
 	
-	# Shake animation
+	# Stronger shake animation
+	character_sprite.pivot_offset = character_sprite.size / 2.0
 	var t = create_tween()
-	for i in 3:
-		t.tween_property(character_sprite, "position:x", character_sprite.position.x + 5, 0.05)
-		t.tween_property(character_sprite, "position:x", character_sprite.position.x - 5, 0.05)
-	t.tween_property(character_sprite, "position:x", character_sprite.position.x, 0.05)
+	var start_x = character_sprite.position.x
+	for i in 4:
+		t.tween_property(character_sprite, "position:x", start_x + 10, 0.05)
+		t.tween_property(character_sprite, "position:x", start_x - 10, 0.05)
+	t.tween_property(character_sprite, "position:x", start_x, 0.05)
 	
 	_show_speech(WRONG_PHRASES[randi() % WRONG_PHRASES.size()])
 	if is_inside_tree():
@@ -247,6 +266,12 @@ func _leave() -> void:
 	character_sprite.modulate = Color(0.8, 0.8, 0.9, 1.0)
 	AudioManager.play_sfx("xin_loi")
 	_show_emoji("😢")
+	
+	# Droop down
+	character_sprite.pivot_offset = character_sprite.size / 2.0
+	var t = create_tween()
+	t.tween_property(character_sprite, "scale", Vector2(1.05, 0.8), 0.3).set_trans(Tween.TRANS_SINE)
+	
 	_show_speech(LEAVE_PHRASES[randi() % LEAVE_PHRASES.size()])
 	if is_inside_tree():
 		await get_tree().create_timer(1.0).timeout

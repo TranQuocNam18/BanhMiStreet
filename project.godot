@@ -25,6 +25,7 @@ config/icon="res://icon.svg"
 AudioManager="*res://scripts/AudioManager.gd"
 OrderSystem="*res://scripts/OrderSystem.gd"
 Shop="*res://scripts/Shop.gd"
+SaveSystem="*res://scripts/SaveSystem.gd"
 
 [display]
 
